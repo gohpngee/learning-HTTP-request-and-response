@@ -11,9 +11,9 @@ public class Post {
     private int id;
     private String title;
     private String body;
-    private int titleLength;
+    //private int titleLength;
 
-    public int getTitleLength() {
+    /*public int getTitleLength() {
         return title.length();
-    }
+    }*/
 }
