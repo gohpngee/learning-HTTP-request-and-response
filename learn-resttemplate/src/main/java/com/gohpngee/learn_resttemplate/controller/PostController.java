@@ -51,6 +51,5 @@ public class PostController {
             return ResponseEntity.noContent().build();
         }
         return post;
-        //return ResponseEntity<Post>(post, HttpStatus.CREATED); // HTTP response 200, OK
     }
 }
