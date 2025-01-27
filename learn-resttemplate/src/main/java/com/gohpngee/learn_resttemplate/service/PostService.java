@@ -15,20 +15,20 @@ public class PostService {
 
     private static final String baseUrl = "https://jsonplaceholder.typicode.com/posts";
 
-    public List<Post> fetchAllPosts() {
+    public ResponseEntity<String> fetchAllPosts() {
         System.out.println("Fetching all posts");
-        //uses the RestTemplate GET method to get the HTTP response and map it into an array of Post objects.
-        Post[] posts = restTemplate.getForObject(baseUrl, Post[].class);
-        return Arrays.asList(posts);
+        ResponseEntity<String> response = restTemplate.exchange(baseUrl, HttpMethod.GET, null, String.class);
+//        System.out.println("Response body: " + response.getBody());
+        return response;
     }
 
-    public Post fetchIdPost(int id) {
+    public ResponseEntity<String> fetchIdPost(int id) {
         System.out.println("Fetching post by id: " + id);
         String postUrl = baseUrl + "/" + id; //adding a slash at the back so i can include id
 
         ResponseEntity<String> response = restTemplate.exchange(postUrl, HttpMethod.GET, null, String.class);
         System.out.println("Response body: " + response.getBody());
 
-        return restTemplate.getForObject(postUrl, Post.class);
+        return response;
     }
 }

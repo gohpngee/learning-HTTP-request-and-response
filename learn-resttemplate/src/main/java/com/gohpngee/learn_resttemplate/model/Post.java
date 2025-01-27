@@ -1,11 +1,12 @@
 package com.gohpngee.learn_resttemplate.model;
 
-
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@RequiredArgsConstructor
 public class Post {
     private int userId;
     private int id;

@@ -2,12 +2,11 @@ package com.gohpngee.learn_resttemplate.controller;
 
 import com.gohpngee.learn_resttemplate.model.Post;
 import com.gohpngee.learn_resttemplate.service.PostService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,7 +26,7 @@ public class PostController {
         return "Welcome to the Post API!";
     }
 
-    @GetMapping("/posts")
+    /*@GetMapping("/posts")
     //ResponseEntity returns data for successful requests, and a HTTP Status code for errors
     public ResponseEntity<List<Post>> getAllPosts() {
         List<Post> posts = postService.fetchAllPosts();
@@ -37,14 +36,21 @@ public class PostController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(posts); //returns a 200 OK with JSON arrayList of posts
+    }*/
+
+    @GetMapping("/posts")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> getAllPosts() {
+        return postService.fetchAllPosts();
     }
 
     @GetMapping(value = "/posts/{id}", produces = "application/json")
-    public ResponseEntity<Post> getIdPost(@PathVariable int id) {
-        Post post = postService.fetchIdPost(id);
+    public ResponseEntity<String> getIdPost(@PathVariable int id) {
+        ResponseEntity<String> post = postService.fetchIdPost(id);
         if (post == null) {
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok(post); // HTTP response 200, OK
+        return post;
+        //return ResponseEntity<Post>(post, HttpStatus.CREATED); // HTTP response 200, OK
     }
 }

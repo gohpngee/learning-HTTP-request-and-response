@@ -10,5 +10,5 @@ public class LearnResttemplateApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(LearnResttemplateApplication.class, args);
 	}
+}
 
-	RestTemplate restTemplate =
