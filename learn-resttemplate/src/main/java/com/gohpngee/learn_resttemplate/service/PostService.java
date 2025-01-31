@@ -1,6 +1,8 @@
 package com.gohpngee.learn_resttemplate.service;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.gohpngee.learn_resttemplate.model.Post;
+import org.json.JSONObject;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,9 @@ public class PostService {
 
     public ResponseEntity<String> fetchAllPosts() {
         System.out.println("Fetching all posts");
+        ResponseEntity<String> response = restTemplate.exchange(baseUrl, HttpMethod.GET, null, String.class);
+        JSONObject obj = new JSONObject(response);
+        System.out.println("obj is "+obj);
         return restTemplate.exchange(baseUrl, HttpMethod.GET, null, String.class);
     }
 
