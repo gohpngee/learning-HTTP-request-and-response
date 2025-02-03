@@ -1,14 +1,15 @@
 package com.gohpngee.learn_resttemplate.controller;
 
-import com.gohpngee.learn_resttemplate.model.Post;
 import com.gohpngee.learn_resttemplate.service.PostService;
-import lombok.RequiredArgsConstructor;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api")
@@ -44,12 +45,16 @@ public class PostController {
         return postService.fetchAllPosts();
     }
 
-    @GetMapping(value = "/posts/{id}", produces = "application/json")
-    public ResponseEntity<String> getIdPost(@PathVariable int id) {
-        ResponseEntity<String> post = postService.fetchIdPost(id);
-        if (post == null) {
-            return ResponseEntity.noContent().build();
+    @GetMapping(value = "/posts/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String, Object>> getIdPost(@PathVariable int id) {
+        JSONObject post = postService.fetchIdPost(id);
+
+        if (post != null) {
+            Map<String, Object> postMap = post.toMap();
+            System.out.println("return type: " + postMap.getClass());
+            System.out.println("post as map: " + postMap);
+            return ResponseEntity.ok(post.toMap());
         }
-        return post;
+        return ResponseEntity.notFound().build();
     }
 }
