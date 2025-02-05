@@ -1,14 +1,13 @@
 package com.gohpngee.learn_resttemplate.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Getter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 @RequiredArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
+@NoArgsConstructor
+
 public class Post {
     private int userId;
     private int id;
