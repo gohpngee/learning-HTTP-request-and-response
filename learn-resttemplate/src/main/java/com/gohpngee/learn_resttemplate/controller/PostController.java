@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/api")
@@ -26,18 +25,6 @@ public class PostController {
     public String home() {
         return "Welcome to the Post API!";
     }
-
-    /*@GetMapping("/posts")
-    //ResponseEntity returns data for successful requests, and a HTTP Status code for errors
-    public ResponseEntity<List<Post>> getAllPosts() {
-        List<Post> posts = postService.fetchAllPosts();
-        if (posts.isEmpty()) {
-            //usage of .build() to set the response to 204 or 404
-            //and avoid returning null value
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(posts); //returns a 200 OK with JSON arrayList of posts
-    }*/
 
     @GetMapping("/posts")
     @ResponseStatus(HttpStatus.OK)
