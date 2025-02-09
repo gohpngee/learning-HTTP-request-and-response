@@ -3,10 +3,12 @@ package com.gohpngee.learn_resttemplate.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 @Data
 @RequiredArgsConstructor
 @NoArgsConstructor
+@ToString
 
 public class Post {
     private int userId;
