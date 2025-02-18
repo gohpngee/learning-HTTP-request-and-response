@@ -37,15 +37,26 @@ public class PostController {
     }
 
     @GetMapping(value = "/posts/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Map<String, Object>> getIdPost(@PathVariable int id) {
-        JSONObject post = postService.fetchIdPost(id);
+    public ResponseEntity<Post> getIdPost(@PathVariable int id) {
+        Post post = postService.fetchIdPost(id);
+        return ResponseEntity.ok(post);
+    }
 
-        if (post != null) {
-            Map<String, Object> postMap = post.toMap();
-            System.out.println("return type: " + postMap.getClass());
-            System.out.println("post as map: " + postMap);
-            return ResponseEntity.ok(post.toMap());
-        }
-        return ResponseEntity.notFound().build();
+    @GetMapping("/posts/shortest-title-post")
+    public ResponseEntity<Post> getShortestTitlePost() {
+        Post shortestTitlePost = postService.findShortestTitlePost();
+        return ResponseEntity.ok(shortestTitlePost);
+    }
+
+    @GetMapping("/posts/longest-title-post")
+    public ResponseEntity<Post> getLongestTitlePost() {
+        Post longestTitlePost = postService.findLongestTitlePost();
+        return ResponseEntity.ok(longestTitlePost);
+    }
+
+    @GetMapping(value = "/post/length-title/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Integer> getPostTitleLength(@PathVariable int id) {
+        int titleLength = postService.findTitleLength(id);
+        return ResponseEntity.ok(titleLength);
     }
 }
