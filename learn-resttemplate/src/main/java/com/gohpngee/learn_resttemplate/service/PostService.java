@@ -1,36 +1,42 @@
 package com.gohpngee.learn_resttemplate.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.gohpngee.learn_resttemplate.model.Post;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 @Service
 public class PostService {
-    private final RestTemplate restTemplate = new RestTemplate();
-    private static final String baseUrl = "https://jsonplaceholder.typicode.com/posts";
+    private final RestTemplate restTemplate;
+    private final ObjectMapper objectMapper;
+    private final String baseUrl = "https://jsonplaceholder.typicode.com/posts";
 
-    public ResponseEntity<String> fetchAllPosts() {
+    public PostService(RestTemplate restTemplate, ObjectMapper objectMapper) {
+        this.restTemplate = restTemplate;
+        this.objectMapper = objectMapper;
+    }
+
+    public List<Post> fetchAllPosts() {
         System.out.println("Fetching all posts");
-        ResponseEntity<String> response = restTemplate.exchange(baseUrl, HttpMethod.GET, null, String.class);
-        JSONArray jsonArray = new JSONArray(response.getBody());
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject jsonObject = jsonArray.getJSONObject(i);
-            System.out.println("Post #" + (i + 1) + ": " + jsonObject);
-        }
-        return ResponseEntity.ok(jsonArray.toString());
+        Post[] postArray = restTemplate.getForObject(baseUrl, Post[].class);
+        System.out.println("blabla: " + postArray.length);
+        return Arrays.asList(postArray); //convert to a list because more dynamic
     }
 
     public JSONObject fetchIdPost(int targetId) {
         System.out.println("Fetching all posts");
-        ResponseEntity<String> response = restTemplate.exchange(baseUrl, HttpMethod.GET, null, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(baseUrl + "/" + targetId, HttpMethod.GET, null, String.class);
         JSONArray postArray = new JSONArray(response.getBody());
 
         for (int i = 0; i < postArray.length(); i++) {
@@ -41,7 +47,7 @@ public class PostService {
         return null;
     }
 
-    public ResponseEntity<String> afetchIdPost(int id) {
+   /* public ResponseEntity<String> fetchIdPost(int id) {
         System.out.println("Fetching post by id: " + id);
         String postUrl = baseUrl + "/" + id; //adding a slash at the back so i can include id
 
@@ -51,7 +57,7 @@ public class PostService {
         System.out.println("Response body: " + response.getBody());
 
         return response;
-    }
+    }*/
 
     /*public Post fetchLongestTitlePost() {
         //Fetch all posts first
