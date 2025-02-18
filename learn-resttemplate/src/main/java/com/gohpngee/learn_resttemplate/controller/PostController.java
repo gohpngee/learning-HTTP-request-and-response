@@ -1,5 +1,6 @@
 package com.gohpngee.learn_resttemplate.controller;
 
+import com.gohpngee.learn_resttemplate.model.Post;
 import com.gohpngee.learn_resttemplate.service.PostService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -28,8 +30,9 @@ public class PostController {
 
     @GetMapping("/posts")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> getAllPosts() {
-        return postService.fetchAllPosts();
+    public List<Post> getAllPosts() {
+        List<Post> posts = postService.fetchAllPosts();
+        return posts;
     }
 
     @GetMapping(value = "/posts/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
