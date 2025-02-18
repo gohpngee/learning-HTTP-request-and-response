@@ -32,6 +32,7 @@ public class PostController {
     @ResponseStatus(HttpStatus.OK)
     public List<Post> getAllPosts() {
         List<Post> posts = postService.fetchAllPosts();
+        //System.out.println(posts.getFirst());
         return posts;
     }
 
