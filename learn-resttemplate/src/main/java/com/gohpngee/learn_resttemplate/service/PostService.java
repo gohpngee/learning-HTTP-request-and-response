@@ -34,35 +34,43 @@ public class PostService {
         return Arrays.asList(postArray); //convert to a list because more dynamic
     }
 
-    public JSONObject fetchIdPost(int targetId) {
-        System.out.println("Fetching all posts");
-        ResponseEntity<String> response = restTemplate.exchange(baseUrl + "/" + targetId, HttpMethod.GET, null, String.class);
-        JSONArray postArray = new JSONArray(response.getBody());
-
-        for (int i = 0; i < postArray.length(); i++) {
-            JSONObject post = postArray.getJSONObject(i);
-            if (post.getInt("id") == targetId)
-                return post;
-        }
-        return null;
+    public Post fetchIdPost(int targetId) {
+        System.out.println("Fetching post: " + targetId);
+        Post postObject = restTemplate.getForObject(baseUrl + "/" + targetId, Post.class);
+        System.out.println("post object: " + postObject);
+        return postObject;
     }
 
-   /* public ResponseEntity<String> fetchIdPost(int id) {
-        System.out.println("Fetching post by id: " + id);
-        String postUrl = baseUrl + "/" + id; //adding a slash at the back so i can include id
+    public Post findLongestTitlePost() {
+        List<Post> postArray = Arrays.asList(restTemplate.getForObject(baseUrl, Post[].class));
 
-        ResponseEntity<String> response = restTemplate.exchange(postUrl, HttpMethod.GET, null, String.class);
+        if (postArray.isEmpty())
+            return null;
+        Post longestTitlePost = postArray.get(0);
+        for (Post post : postArray) {
+            if (post.getTitle().length() > longestTitlePost.getTitle().length()){
+                longestTitlePost = post;
+            }
+        }
+        return longestTitlePost;
+    }
 
+    public Post findShortestTitlePost() {
+        List<Post> postArray = Arrays.asList(restTemplate.getForObject(baseUrl, Post[].class));
 
-        System.out.println("Response body: " + response.getBody());
+        if (postArray.isEmpty())
+            return null;
+        Post shortestTitlePost = postArray.get(0);
+        for (Post post : postArray) {
+            if (post.getTitle().length() < shortestTitlePost.getTitle().length())
+                shortestTitlePost = post;
+        }
+        return shortestTitlePost;
+    }
 
-        return response;
-    }*/
-
-    /*public Post fetchLongestTitlePost() {
-        //Fetch all posts first
-        System.out.println("Fetching all posts.");
-
-        ResponseEntity<List<Post>> response = restTemplate.exchange(baseUrl, HttpMethod.GET, null, )
-    }*/
+    public int findTitleLength(int targetId) {
+        System.out.println("Finding length of title for post #" + targetId);
+        Post postObject = restTemplate.getForObject(baseUrl + "/" + targetId, Post.class);
+        return postObject.getTitleLength();
+    }
 }
